@@ -1,10 +1,24 @@
-Run Play application
-====
-  
-sbt run
 
+ Запуск пориложения из системы сборки (SBT)
+ в консоле перейти в папку проекта parkplace-monitor
+ выполнить команду
+ sbt run
 
-./parkplace-monitor -Dplay.http.secret.key='123'
-parkplace-monitor.bat -Dplay.http.secret.key='123'
+ при необходимости собрать архив  дистрибутива -
+ sbt dist
+ архив выкладывается в папку parkplace-monitor/target/universal
 
-http://localhost:9000/
+ для запуска приложения из дистрибутива 
+ 1 распаковать архив
+ 2 выполнить команду
+ юникс/mac
+ bin/parkplace-monitor -Dplay.http.secret.key='123'
+
+ bin/parkplace-monitor.bat -Dplay.http.secret.key='123'
+
+ интерфейс приложения доступен по урл -
+ http://localhost:9000/
+ 
+ 
+ собраный дистрибутив доступен по адресу
+ https://yadi.sk/d/W7dwK-td3Rev84
