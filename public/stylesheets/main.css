@@ -1,0 +1,12 @@
+dd.error {
+	color: red;
+}
+
+dd.info {
+	color: blue;
+}
+
+dt { 
+	float: left;
+	width: 200px; 
+}

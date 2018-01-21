@@ -1,0 +1,66 @@
+@(vehicles: Seq[models.Vehicle])(vehicleForm: Form[models.Vehicle])(implicit messages: Messages)
+	@import java.text.SimpleDateFormat
+	@import java.util.Date
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Manage Vehicles</title>
+        <meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.min.css")">
+        <script src="@routes.Assets.versioned("lib/jquery/jquery.min.js")"  type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+    	<div class="container">
+    		<div class="panel">
+    			@if(vehicleForm.hasGlobalErrors) {
+				  @for(error <- vehicleForm.globalErrors) {
+					  <div class="alert alert-danger" role="alert">
+	  					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	  					@Messages(error.messages, error.args)
+					  </div>  
+				  }
+				}
+				<table><tr><td>
+				@helper.form(action = routes.VehicleController.addVehicle) {
+				    @helper.inputText(vehicleForm("numberPlate"), '_label -> "Номер въезжающего ТС (A123BC99)")
+				    <button class="btn btn-default" type="submit">Checkin Vehicle</button>
+				}
+				</td><td>
+                @helper.form(action = routes.VehicleController.checkOutVehicle) {
+                    @helper.inputText(vehicleForm("numberPlate"), '_label -> "Номер выезжающего ТС (A123BC99)")
+                    <button class="btn btn-default" type="submit">CheckOut Vehicle</button>
+                }
+				</td></tr></table>
+				<script>$('#checkin').datetimepicker({
+					format: 'yyyy-mm-dd hh:ii:ss'
+				});
+				</script>
+			</div>
+		    <div class="panel panel-default">
+			 	<div class="panel-heading">Транспортные средства находящиеся на парковке</div>
+			  	<table class="table">
+			  		<thead>
+						<tr>
+							<th>Id</th>
+							<th>Регистрационный номер ТС</th>
+							<th>Время въезда</th>
+						</tr>
+					</thead>
+					<h1>Число ТС на парковке - @(vehicles.length) </h1>
+					@for(vehicle <- vehicles) {
+			    		<tr>
+			    			<td>@vehicle.id</td>
+							<td>@vehicle.numberPlate</td>
+							<td>@(new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(new Date(vehicle.checkin.getOrElse(0L))))</td>
+			    		</tr>
+			   		}
+			  	</table>
+			</div>
+		</div>
+    </body>
+</html>
